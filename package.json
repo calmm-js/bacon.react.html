@@ -1,0 +1,32 @@
+{
+  "name": "bacon.react.html",
+  "version": "0.1.0",
+  "description": "JSX with Bacon, yummy?",
+  "main": "lib/bacon.react.html.js",
+  "scripts": {
+    "prepublish": "npm run dist",
+    "dist": "babel src --source-maps inline --out-dir lib"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/polytypic/bacon.react.html.git"
+  },
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/polytypic/bacon.react.html/issues"
+  },
+  "homepage": "https://github.com/polytypic/bacon.react.html#readme",
+  "dependencies": {
+    "bacon.react": "^0.2.2",
+    "react": "^0.14.3",
+    "react-dom": "^0.14.3"
+  },
+  "devDependencies": {
+    "babel": "^6.3.13",
+    "babel-cli": "^6.3.17",
+    "babel-plugin-transform-es2015-modules-commonjs": "^6.3.16",
+    "babel-preset-es2015": "^6.3.13",
+    "babel-preset-react": "^6.3.13",
+    "babel-preset-stage-2": "^6.3.13"
+  }
+}
