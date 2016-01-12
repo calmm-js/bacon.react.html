@@ -1,59 +1,55 @@
 import React from "react"
 import Reify from "bacon.react"
 
-const handleProps = props => ({ ...props, ref: props.didMount })
+export const classes = (...cs) => cs.filter(c => c).join(" ")
 
-// NOTE: Alphabetical order
+const prep = ({didMount, ...props}) => {
+  if (didMount)
+    props.ref = didMount
+  return props
+}
 
-export const A = props => <Reify><a {...handleProps(props)}/></Reify>
+// Markup
 
-export const Article = props => <Reify><article {...handleProps(props)}/></Reify>
+export const A       = ps => <Reify><a       {...prep(ps)}/></Reify>
+export const Article = ps => <Reify><article {...prep(ps)}/></Reify>
+export const Button  = ps => <Reify><button  {...prep(ps)}/></Reify>
+export const Div     = ps => <Reify><div     {...prep(ps)}/></Reify>
+export const I       = ps => <Reify><i       {...prep(ps)}/></Reify>
+export const LI      = ps => <Reify><li      {...prep(ps)}/></Reify>
+export const Main    = ps => <Reify><main    {...prep(ps)}/></Reify>
+export const Option  = ps => <Reify><option  {...prep(ps)}/></Reify>
+export const Small   = ps => <Reify><small   {...prep(ps)}/></Reify>
+export const Span    = ps => <Reify><span    {...prep(ps)}/></Reify>
+export const TBody   = ps => <Reify><tbody   {...prep(ps)}/></Reify>
+export const TD      = ps => <Reify><td      {...prep(ps)}/></Reify>
+export const UL      = ps => <Reify><ul      {...prep(ps)}/></Reify>
 
-export const Button = props => <Reify><button {...handleProps(props)}/></Reify>
+// Controls
 
-export const CheckboxInput = ({checked, ...props}) => <Reify>
+export const CheckboxInput = ({checked, ...ps}) => <Reify>
     <input type="checkbox"
            checked={checked}
            onChange={() => checked.modify(c => !c)}
-           {...handleProps(props)}/>
+           {...prep(ps)}/>
   </Reify>
 
-export const Div = props => <Reify><div {...handleProps(props)}/></Reify>
-
-export const I = props => <Reify><i {...handleProps(props)}/></Reify>
-
-export const LI = props => <Reify><li {...handleProps(props)}/></Reify>
-
-export const Main = props => <Reify><main {...handleProps(props)}/></Reify>
-
-export const Option = props => <Reify><option {...handleProps(props)}/></Reify>
-
-export const Select = ({value, ...props}) => <Reify>
+export const Select = ({value, ...ps}) => <Reify>
     <select value={value}
             onChange={e => value.set(e.target.value)}
-            {...handleProps(props)}/>
+            {...prep(ps)}/>
   </Reify>
 
-export const Small = props => <Reify><small {...handleProps(props)}/></Reify>
-
-export const Span = props => <Reify><span {...handleProps(props)}/></Reify>
-
-export const TBody = props => <Reify><tbody {...handleProps(props)}/></Reify>
-
-export const TD = props => <Reify><td {...handleProps(props)}/></Reify>
-
-export const TextArea = ({value, ...props}) => <Reify>
+export const TextArea = ({value, ...ps}) => <Reify>
     <textarea type="text"
               value={value}
               onChange={e => value.set(e.target.value)}
-              {...handleProps(props)}/>
+              {...prep(ps)}/>
   </Reify>
 
-export const TextInput = ({value, ...props}) => <Reify>
+export const TextInput = ({value, ...ps}) => <Reify>
     <input type="text"
            value={value}
            onChange={e => value.set(e.target.value)}
-           {...handleProps(props)}/>
+           {...prep(ps)}/>
   </Reify>
-
-export const UL = props => <Reify><ul {...handleProps(props)}/></Reify>
