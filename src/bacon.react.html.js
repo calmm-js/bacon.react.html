@@ -19,6 +19,7 @@ export const Article = ps => <Reify><article {...prep(ps)}/></Reify>
 export const Button  = ps => <Reify><button  {...prep(ps)}/></Reify>
 export const Div     = ps => <Reify><div     {...prep(ps)}/></Reify>
 export const I       = ps => <Reify><i       {...prep(ps)}/></Reify>
+export const Input   = ps => <Reify><input   {...prep(ps)}/></Reify>
 export const LI      = ps => <Reify><li      {...prep(ps)}/></Reify>
 export const Main    = ps => <Reify><main    {...prep(ps)}/></Reify>
 export const Option  = ps => <Reify><option  {...prep(ps)}/></Reify>
@@ -30,13 +31,11 @@ export const UL      = ps => <Reify><ul      {...prep(ps)}/></Reify>
 
 // Controls
 
-export const InputChecked = ({checked, ...ps}) => <Reify>
-    <input checked={checked} onChange={toggle(checked)} {...prep(ps)}/>
-  </Reify>
+export const InputChecked = ({checked, ...ps}) =>
+  <Input checked={checked} onChange={toggle(checked)} {...prep(ps)}/>
 
-export const InputValue = ({value, ...ps}) => <Reify>
-    <input value={value} onChange={set(value)} {...prep(ps)}/>
-  </Reify>
+export const InputValue = ({value, ...ps}) =>
+  <Input value={value} onChange={set(value)} {...prep(ps)}/>
 
 export const Select = ({value, ...ps}) => <Reify>
     <select value={value} onChange={set(value)} {...prep(ps)}/>
