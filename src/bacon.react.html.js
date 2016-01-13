@@ -9,6 +9,9 @@ const prep = ({didMount, ...props}) => {
   return props
 }
 
+const set = value => e => value.set(e.target.value)
+const toggle = checked => () => checked.modify(c => !c)
+
 // Markup
 
 export const A       = ps => <Reify><a       {...prep(ps)}/></Reify>
@@ -27,29 +30,18 @@ export const UL      = ps => <Reify><ul      {...prep(ps)}/></Reify>
 
 // Controls
 
-export const CheckboxInput = ({checked, ...ps}) => <Reify>
-    <input type="checkbox"
-           checked={checked}
-           onChange={() => checked.modify(c => !c)}
-           {...prep(ps)}/>
+export const InputChecked = ({checked, ...ps}) => <Reify>
+    <input checked={checked} onChange={toggle(checked)} {...prep(ps)}/>
+  </Reify>
+
+export const InputValue = ({value, ...ps}) => <Reify>
+    <input value={value} onChange={set(value)} {...prep(ps)}/>
   </Reify>
 
 export const Select = ({value, ...ps}) => <Reify>
-    <select value={value}
-            onChange={e => value.set(e.target.value)}
-            {...prep(ps)}/>
+    <select value={value} onChange={set(value)} {...prep(ps)}/>
   </Reify>
 
-export const TextArea = ({value, ...ps}) => <Reify>
-    <textarea type="text"
-              value={value}
-              onChange={e => value.set(e.target.value)}
-              {...prep(ps)}/>
-  </Reify>
-
-export const TextInput = ({value, ...ps}) => <Reify>
-    <input type="text"
-           value={value}
-           onChange={e => value.set(e.target.value)}
-           {...prep(ps)}/>
+export const Textarea = ({value, ...ps}) => <Reify>
+    <textarea value={value} onChange={set(value)} {...prep(ps)}/>
   </Reify>
