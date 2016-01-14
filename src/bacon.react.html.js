@@ -1,63 +1,65 @@
 import React from "react"
 import Reify from "bacon.react"
 
-export const classes = (...cs) => cs.filter(c => c).join(" ")
+// Helpers
 
-const prep = ({didMount, ...props}) => {
-  if (didMount)
-    props.ref = didMount
-  return props
+export function classes() {
+  let result = ""
+  for (let i=0, n=arguments.length; i<n; ++i) {
+    const a = arguments[i]
+    if (a) {
+      if (result)
+        result += " "
+      result += a
+    }
+  }
+  return result
 }
 
-const set = value => e => value.set(e.target.value)
-const toggle = checked => () => checked.modify(c => !c)
+export const set = value => e => value.set(e.target.value)
+export const toggle = checked => () => checked.modify(c => !c)
 
 // Markup
 
-export const A        = ps => <Reify><a        {...prep(ps)}/></Reify>
-export const Article  = ps => <Reify><article  {...prep(ps)}/></Reify>
-export const Button   = ps => <Reify><button   {...prep(ps)}/></Reify>
-export const DD       = ps => <Reify><dd       {...prep(ps)}/></Reify>
-export const DL       = ps => <Reify><dl       {...prep(ps)}/></Reify>
-export const DT       = ps => <Reify><dt       {...prep(ps)}/></Reify>
-export const Div      = ps => <Reify><div      {...prep(ps)}/></Reify>
-export const Em       = ps => <Reify><em       {...prep(ps)}/></Reify>
-export const Footer   = ps => <Reify><footer   {...prep(ps)}/></Reify>
-export const H1       = ps => <Reify><h1       {...prep(ps)}/></Reify>
-export const H2       = ps => <Reify><h2       {...prep(ps)}/></Reify>
-export const H3       = ps => <Reify><h3       {...prep(ps)}/></Reify>
-export const I        = ps => <Reify><i        {...prep(ps)}/></Reify>
-export const Input    = ps => <Reify><input    {...prep(ps)}/></Reify>
-export const LI       = ps => <Reify><li       {...prep(ps)}/></Reify>
-export const Main     = ps => <Reify><main     {...prep(ps)}/></Reify>
-export const Option   = ps => <Reify><option   {...prep(ps)}/></Reify>
-export const P        = ps => <Reify><p        {...prep(ps)}/></Reify>
-export const Section  = ps => <Reify><section  {...prep(ps)}/></Reify>
-export const Select   = ps => <Reify><select   {...prep(ps)}/></Reify>
-export const Small    = ps => <Reify><small    {...prep(ps)}/></Reify>
-export const Span     = ps => <Reify><span     {...prep(ps)}/></Reify>
-export const Strong   = ps => <Reify><strong   {...prep(ps)}/></Reify>
-export const TBody    = ps => <Reify><tbody    {...prep(ps)}/></Reify>
-export const TD       = ps => <Reify><td       {...prep(ps)}/></Reify>
-export const TFoot    = ps => <Reify><tfoot    {...prep(ps)}/></Reify>
-export const THead    = ps => <Reify><thead    {...prep(ps)}/></Reify>
-export const TR       = ps => <Reify><tr       {...prep(ps)}/></Reify>
-export const Table    = ps => <Reify><table    {...prep(ps)}/></Reify>
-export const Textarea = ps => <Reify><textarea {...prep(ps)}/></Reify>
-export const UL       = ps => <Reify><ul       {...prep(ps)}/></Reify>
+const renameDidMountToRef = ({didMount, ...ps}) => {
+  ps.ref = didMount
+  return ps
+}
 
-// Controls
+const prep = ps => "didMount" in ps ? renameDidMountToRef(ps) : ps
 
-export const InputChecked = ({checked, ...ps}) =>
-  <Input checked={checked} onChange={toggle(checked)} {...prep(ps)}/>
+export const lift = tag => ps =>
+  React.createElement(Reify, null, React.createElement(tag, prep(ps)))
 
-export const InputValue = ({value, ...ps}) =>
-  <Input value={value} onChange={set(value)} {...prep(ps)}/>
-
-export const SelectValue = ({value, ...ps}) => <Reify>
-    <select value={value} onChange={set(value)} {...prep(ps)}/>
-  </Reify>
-
-export const TextareaValue = ({value, ...ps}) => <Reify>
-    <textarea value={value} onChange={set(value)} {...prep(ps)}/>
-  </Reify>
+export const A        = lift("a")
+export const Article  = lift("article")
+export const Button   = lift("button")
+export const DD       = lift("dd")
+export const DL       = lift("dl")
+export const DT       = lift("dt")
+export const Div      = lift("div")
+export const Em       = lift("em")
+export const Footer   = lift("footer")
+export const H1       = lift("h1")
+export const H2       = lift("h2")
+export const H3       = lift("h3")
+export const I        = lift("i")
+export const Input    = lift("input")
+export const LI       = lift("li")
+export const Main     = lift("main")
+export const Option   = lift("option")
+export const P        = lift("p")
+export const Progress = lift("progress")
+export const Section  = lift("section")
+export const Select   = lift("select")
+export const Small    = lift("small")
+export const Span     = lift("span")
+export const Strong   = lift("strong")
+export const TBody    = lift("tbody")
+export const TD       = lift("td")
+export const TFoot    = lift("tfoot")
+export const THead    = lift("thead")
+export const TR       = lift("tr")
+export const Table    = lift("table")
+export const Textarea = lift("textarea")
+export const UL       = lift("ul")

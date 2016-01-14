@@ -10,6 +10,7 @@ import Reify from "bacon.react"
 
 <Reify>
   <input type="text"
+         ref={c => c && c.focus()}
          value={value}
          onChange={e => value.set(e.target.value)}/>
 </Reify>
@@ -18,9 +19,12 @@ import Reify from "bacon.react"
 you can write
 
 ```jsx
-import {InputValue} from "bacon.react.html"
+import {set, Input} from "bacon.react.html"
 
-<InputValue type="text" value={value}/>
+<Input type="text"
+       didMount={c => c && c.focus()}
+       value={value}
+       onChange={set(value)}/>
 ```
 
 where `value` refers to a [Bacon.Model](https://github.com/baconjs/bacon.model).
