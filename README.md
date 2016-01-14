@@ -41,9 +41,9 @@ immediately contained properties or children.  So, you can safely write
 </Div>
 ```
 
-Note, however, that those elements that immediately contain streams must to be
-lifted (React will choke on plain Bacon).  So, the above could also have been
-written as:
+Note, however, that *only* those elements that immediately contain streams must
+be lifted, because React will choke on plain Bacon.  So, the above could also
+have been written as:
 
 ```jsx
 <div>
