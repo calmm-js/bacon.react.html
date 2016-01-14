@@ -15,8 +15,8 @@ and you can then use them like ordinary HTML tags, but with Bacon streams in
 properties or as children.  For example, you could write
 
 ```jsx
-import {set, Input} from "bacon.react.html"
-
+const value = Bacon.Model("")
+...
 <Input type="text"
        mount={c => c && c.focus()}
        value={value}
@@ -31,6 +31,8 @@ A single lifted tag, like `Input` above, lifts Bacon streams only when they are
 immediately contained properties or children.  So, you can safely write
 
 ```jsx
+const checked = Bacon.Model(false)
+...
 <Div>
   <Label htmlFor="likes-bacon">Bacon is tasty</Label>
   <Input type="checkbox"
@@ -46,6 +48,8 @@ be lifted, because React will choke on plain Bacon.  So, the above could also
 have been written as:
 
 ```jsx
+const checked = Bacon.Model(false)
+...
 <div>
   <label htmlFor="likes-bacon">Bacon is tasty</label>
   <Input type="checkbox"
