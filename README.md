@@ -5,48 +5,45 @@ streams into React Virtual DOM.
 
 ## Usage
 
-Import the elements and other utilities you need, e.g.
+Import the element object (default import) and other utilities you need:
 
 ```jsx
-import {set, toggle, Div, Input, Label, P} from "bacon.react.html"
+import B, {set, toggle} from "bacon.react.html"
 ```
 
-and you can then use them like ordinary HTML elements, but with Bacon streams in
-attributes or as children.
-
-To make the names easy to remember, the names of the lifted elements only differ
-from React.DOM element names by having an initial capital letter.
+The lifted elements can be accessed from the default import.  The names of the
+lifted elements are the same as in React.DOM.
 
 For example, you could write
 
 ```jsx
 const value = Bacon.Model("")
 ...
-<Input type="text"
-       mount={c => c && c.focus()}
-       value={value}
-       onChange={set(value)}/>
+<B.input type="text"
+         mount={c => c && c.focus()}
+         value={value}
+         onChange={set(value)}/>
 ```
 
 where `value` refers to a [Bacon.Model](https://github.com/baconjs/bacon.model)
 and `mount` does the same thing as `ref`: JSX/React treats it as a special case,
 so it had to be renamed.
 
-A single lifted element, like `Input` above, lifts Bacon streams only when they
-are immediately contained attributes or children.  So, you can safely nest
+A single lifted element, like `B.input` above, lifts Bacon streams only when
+they are immediately contained attributes or children.  So, you can safely nest
 lifted elements:
 
 ```jsx
 const checked = Bacon.Model(false)
 ...
-<Div>
-  <Label htmlFor="likes-bacon">Bacon is tasty</Label>
-  <Input type="checkbox"
-         id="likes-bacon"
-         checked={checked}
-         onChange={toggle(checked)}/>
-  <P hidden={checked}>Are you sure?</P>
-</Div>
+<B.div>
+  <B.label htmlFor="likes-bacon">Bacon is tasty</B.label>
+  <B.input type="checkbox"
+           id="likes-bacon"
+           checked={checked}
+           onChange={toggle(checked)}/>
+  <B.p hidden={checked}>Are you sure?</B.p>
+</B.div>
 ```
 
 Note, however, that *only* those elements that immediately contain streams must
@@ -58,25 +55,25 @@ const checked = Bacon.Model(false)
 ...
 <div>
   <label htmlFor="likes-bacon">Bacon is tasty</label>
-  <Input type="checkbox"
-         id="likes-bacon"
-         checked={checked}
-         onChange={toggle(checked)}/>
-  <P hidden={checked}>Are you sure?</P>
+  <B.input type="checkbox"
+           id="likes-bacon"
+           checked={checked}
+           onChange={toggle(checked)}/>
+  <B.p hidden={checked}>Are you sure?</B.p>
 </div>
 ```
 
 For best performance this latter version is preferable.
 
-## Lifting
+## Lifting and Patching
 
 If you need a lifted version of an element that is not already lifted, you can
 write:
 
 ```jsx
-import {lift} from "bacon.react.html"
+import B, {lift} from "bacon.react.html"
 ...
-const Special = lift("special")
+B.special = lift("special")
 ```
 
 ## Longer examples
