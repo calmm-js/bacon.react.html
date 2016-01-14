@@ -1,5 +1,5 @@
+import Bacon from "baconjs"
 import React from "react"
-import Reify from "bacon.react"
 
 // Helpers
 
@@ -21,15 +21,80 @@ export const toggle = checked => () => checked.modify(c => !c)
 
 // Markup
 
-const renameDidMountToRef = ({didMount, ...ps}) => {
-  ps.ref = didMount
-  return ps
-}
+const Reify = React.createClass({
+  getInitialState() {
+    return {}
+  },
+  tryDispose() {
+    const {dispose} = this.state
+    if (dispose) {
+      dispose()
+      this.replaceState({})
+    }
+  },
+  trySubscribe({$props}) {
+    this.tryDispose()
 
-const prep = ps => "didMount" in ps ? renameDidMountToRef(ps) : ps
+    const vals = {}
+    const obsKeys = []
+    const obsStreams = []
 
-export const lift = tag => ps =>
-  React.createElement(Reify, null, React.createElement(tag, prep(ps)))
+    for (const key in $props) {
+      const val = $props[key]
+      let keyOut = key
+      if ("mount" === key)
+        keyOut = "ref"
+      if (val instanceof Bacon.Observable) {
+        obsKeys.push(keyOut)
+        obsStreams.push(val)
+      } else if ("children" === key &&
+                 val instanceof Array &&
+                 val.find(c => c instanceof Bacon.Observable)) {
+        obsKeys.push(keyOut)
+        obsStreams.push(Bacon.combineAsArray(val))
+      } else {
+        vals[keyOut] = val
+      }
+    }
+
+    this.setState({dispose: Bacon.combineAsArray(obsStreams).onValue(obsVals => {
+      const props = {}
+      let children = null
+      for (const key in vals) {
+        const val = vals[key]
+        if ("children" === key) {children = val} else {props[key] = val}
+      }
+      for (let i=0, n=obsKeys.length; i<n; ++i) {
+        const key = obsKeys[i]
+        const val = obsVals[i]
+        if ("children" === key) {children = val} else {props[key] = val}
+      }
+      this.setState({combined: {props, children}})
+    })})
+  },
+  componentWillReceiveProps(nextProps) {
+    this.trySubscribe(nextProps)
+  },
+  componentWillMount() {
+    this.trySubscribe(this.props)
+  },
+  shouldComponentUpdate(nextProps, nextState) {
+    return nextState.combined !== this.state.combined
+  },
+  componentWillUnmount() {
+    this.tryDispose()
+  },
+  render() {
+    const {combined} = this.state
+    return (combined ? React.createElement(this.props.$tag,
+                                           combined.props,
+                                           combined.children)
+            : null)
+  }
+})
+
+export const lift =
+  $tag => $props => React.createElement(Reify, {$tag, $props})
 
 export const A        = lift("a")
 export const Article  = lift("article")

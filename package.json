@@ -1,6 +1,6 @@
 {
   "name": "bacon.react.html",
-  "version": "0.1.5",
+  "version": "0.2.0",
   "description": "JSX with Bacon, yummy?",
   "main": "lib/bacon.react.html.js",
   "scripts": {
@@ -17,9 +17,8 @@
   },
   "homepage": "https://github.com/polytypic/bacon.react.html#readme",
   "dependencies": {
-    "bacon.react": "^0.2.2",
-    "react": "^0.14.3",
-    "react-dom": "^0.14.3"
+    "baconjs": "^0.7.83",
+    "react": "^0.14.3"
   },
   "devDependencies": {
     "babel": "^6.3.13",
