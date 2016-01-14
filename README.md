@@ -11,7 +11,7 @@ Import the elements and other utilities you need, e.g.
 import {set, toggle, Div, Input, Label, P} from "bacon.react.html"
 ```
 
-and you can then use them like ordinary HTML tags, but with Bacon streams in
+and you can then use them like ordinary HTML elements, but with Bacon streams in
 attributes or as children.  For example, you could write
 
 ```jsx
@@ -27,8 +27,9 @@ where `value` refers to a [Bacon.Model](https://github.com/baconjs/bacon.model)
 and `mount` does the same thing as `ref`: JSX/React treats it as a special case,
 so it had to be renamed.
 
-A single lifted tag, like `Input` above, lifts Bacon streams only when they are
-immediately contained attributes or children.  So, you can safely write
+A single lifted element, like `Input` above, lifts Bacon streams only when they
+are immediately contained attributes or children.  So, you can safely nest
+lifted elements:
 
 ```jsx
 const checked = Bacon.Model(false)
@@ -59,6 +60,8 @@ const checked = Bacon.Model(false)
   <P hidden={checked}>Are you sure?</P>
 </div>
 ```
+
+For best performance this latter version is preferable.
 
 ## Lifting
 
