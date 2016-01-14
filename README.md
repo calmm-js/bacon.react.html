@@ -12,7 +12,7 @@ import {set, toggle, Div, Input, Label, P} from "bacon.react.html"
 ```
 
 and you can then use them like ordinary HTML tags, but with Bacon streams in
-properties or as children.  For example, you could write
+attributes or as children.  For example, you could write
 
 ```jsx
 const value = Bacon.Model("")
@@ -28,7 +28,7 @@ and `mount` does the same thing as `ref`: JSX/React treats it as a special case,
 so it had to be renamed.
 
 A single lifted tag, like `Input` above, lifts Bacon streams only when they are
-immediately contained properties or children.  So, you can safely write
+immediately contained attributes or children.  So, you can safely write
 
 ```jsx
 const checked = Bacon.Model(false)
@@ -58,6 +58,17 @@ const checked = Bacon.Model(false)
          onChange={toggle(checked)}/>
   <P hidden={checked}>Are you sure?</P>
 </div>
+```
+
+## Lifting
+
+If you need a lifted version of an element that is not already lifted, you can
+write:
+
+```jsx
+import {lift} from "bacon.react.html"
+...
+const Special = lift("special")
 ```
 
 ## Longer examples
