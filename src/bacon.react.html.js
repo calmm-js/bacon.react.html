@@ -21,16 +21,16 @@ export const toggle = checked => () => checked.modify(c => !c)
 
 // Markup
 
+const nullState = {dispose: null, combined: null}
+
 const Reify = React.createClass({
   getInitialState() {
-    return {}
+    return nullState
   },
   tryDispose() {
     const {dispose} = this.state
-    if (dispose) {
+    if (dispose)
       dispose()
-      this.replaceState({})
-    }
   },
   trySubscribe({$props}) {
     this.tryDispose()
@@ -83,13 +83,13 @@ const Reify = React.createClass({
   },
   componentWillUnmount() {
     this.tryDispose()
+    this.setState(nullState)
   },
   render() {
     const {combined} = this.state
-    return (combined ? React.createElement(this.props.$tag,
+    return combined && React.createElement(this.props.$tag,
                                            combined.props,
                                            combined.children)
-            : null)
   }
 })
 
