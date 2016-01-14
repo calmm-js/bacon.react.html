@@ -12,7 +12,12 @@ import {set, toggle, Div, Input, Label, P} from "bacon.react.html"
 ```
 
 and you can then use them like ordinary HTML elements, but with Bacon streams in
-attributes or as children.  For example, you could write
+attributes or as children.
+
+To make the names easy to remember, the names of the lifted elements only differ
+from React.DOM element names by having an initial capital letter.
+
+For example, you could write
 
 ```jsx
 const value = Bacon.Model("")

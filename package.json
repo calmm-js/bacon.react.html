@@ -1,6 +1,13 @@
 {
   "name": "bacon.react.html",
-  "version": "0.2.1",
+  "version": "0.3.0",
+  "keywords": [
+    "bacon",
+    "dom",
+    "html",
+    "react",
+    "reactive"
+  ],
   "description": "JSX with Bacon, yummy?",
   "main": "lib/bacon.react.html.js",
   "scripts": {
