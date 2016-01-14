@@ -24,3 +24,7 @@ import {InputValue} from "bacon.react.html"
 ```
 
 where `value` refers to a [Bacon.Model](https://github.com/baconjs/bacon.model).
+
+## Longer examples
+
+* [TodoMVC](https://github.com/polytypic/atomi-todomvc)
