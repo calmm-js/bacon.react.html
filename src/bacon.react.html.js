@@ -23,7 +23,7 @@ export const toggle = checked => () => checked.modify(c => !c)
 
 const nullState = {dispose: null, combined: null}
 
-const Reify = React.createClass({
+const common = {
   getInitialState() {
     return nullState
   },
@@ -32,15 +32,52 @@ const Reify = React.createClass({
     if (dispose)
       dispose()
   },
-  trySubscribe({$props}) {
+  componentWillReceiveProps(nextProps) {
+    this.trySubscribe(nextProps)
+  },
+  componentWillMount() {
+    this.trySubscribe(this.props)
+  },
+  shouldComponentUpdate(nextProps, nextState) {
+    return nextState.combined !== this.state.combined
+  },
+  componentWillUnmount() {
+    this.tryDispose()
+    this.setState(nullState)
+  }
+}
+
+const toProperty = obs =>
+  obs instanceof Bacon.EventStream ? obs.toProperty() : obs
+
+const FromBacon = React.createClass({
+  ...common,
+  trySubscribe({bacon}) {
+    this.tryDispose()
+
+    this.setState({dispose: toProperty(bacon).onValue(
+      combined => this.setState({combined})
+    )})
+  },
+  render() {
+    return this.state.combined
+  }
+})
+
+export const fromBacon = bacon =>
+  React.createElement(FromBacon, {bacon})
+
+const FromClass = React.createClass({
+  ...common,
+  trySubscribe({props}) {
     this.tryDispose()
 
     const vals = {}
     const obsKeys = []
     const obsStreams = []
 
-    for (const key in $props) {
-      const val = $props[key]
+    for (const key in props) {
+      const val = props[key]
       let keyOut = key
       if ("mount" === key)
         keyOut = "ref"
@@ -72,37 +109,24 @@ const Reify = React.createClass({
       this.setState({combined: {props, children}})
     })})
   },
-  componentWillReceiveProps(nextProps) {
-    this.trySubscribe(nextProps)
-  },
-  componentWillMount() {
-    this.trySubscribe(this.props)
-  },
-  shouldComponentUpdate(nextProps, nextState) {
-    return nextState.combined !== this.state.combined
-  },
-  componentWillUnmount() {
-    this.tryDispose()
-    this.setState(nullState)
-  },
   render() {
     const {combined} = this.state
-    return combined && React.createElement(this.props.$tag,
+    return combined && React.createElement(this.props.Class,
                                            combined.props,
                                            combined.children)
   }
 })
 
-export const lift =
-  $tag => $props => React.createElement(Reify, {$tag, $props})
+export const fromClass =
+  Class => props => React.createElement(FromClass, {Class, props})
 
-const liftAll = elems => {
-  const result = {}
-  for (let i=0, n=elems.length; i<n; ++i) {
-    const elem = elems[i]
-    result[elem] = lift(elem)
+const liftAll = cs => {
+  const lifted = {}
+  for (let i=0, n=cs.length; i<n; ++i) {
+    const c = cs[i]
+    lifted[c] = fromClass(c)
   }
-  return result
+  return lifted
 }
 
 export default liftAll([
