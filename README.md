@@ -68,7 +68,7 @@ const checked = Bacon.Model(false)
            id="likes-bacon"
            checked={checked}
            onChange={toggle(checked)}/>
-  <B.div hidden={checked}><em>Are you sure?<em></B.div>
+  <B.div hidden={checked}><em>Are you sure?</em></B.div>
 </div>
 ```
 
