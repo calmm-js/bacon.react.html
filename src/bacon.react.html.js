@@ -3,7 +3,7 @@ import React from "react"
 
 // Helpers
 
-export function classes() {
+export const classes = (...cs) => ({className: Bacon.combineWith(cs, function() {
   let result = ""
   for (let i=0, n=arguments.length; i<n; ++i) {
     const a = arguments[i]
@@ -14,10 +14,12 @@ export function classes() {
     }
   }
   return result
-}
+})})
 
-export const set = value => e => value.set(e.target.value)
-export const toggle = checked => () => checked.modify(c => !c)
+export const bind = template => ({...template, onChange: ({target}) => {
+  for (const k in template)
+    template[k].set(target[k])
+}})
 
 // Markup
 
