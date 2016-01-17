@@ -26,7 +26,7 @@ you could write
 where `observable` refers to a Bacon observable.  The resulting `div` always
 shows the latest value produced by the observable.
 
-### Mount
+### Mount attribute
 
 The `mount` attribute on a lifted element
 
@@ -37,17 +37,16 @@ The `mount` attribute on a lifted element
 does the same thing as the ordinary JSX `ref` attribute: JSX/React treats it as
 a special case, so it had to be renamed.
 
-### Binding
+### Bind attribute template
 
-For convenience, the `bind` attribute template
+The `bind` attribute template
 
 ```jsx
 import {bind} from "bacon.react.html"
 ```
 
-is provided that can be used to bind an attribute, e.g. `value` or `checked`, to
-an object with a `set` method such as a
-[Bacon.Model](https://github.com/baconjs/bacon.model):
+can be used to bind an attribute, e.g. `value` or `checked`, to an object with a
+`set` method such as a [Bacon.Model](https://github.com/baconjs/bacon.model):
 
 ```jsx
 const settable = Bacon.Model("")
@@ -57,9 +56,31 @@ const settable = Bacon.Model("")
          {...bind({value: settable})}/>
 ```
 
-`bind` extends the given attribute object, above `{value: settable}`, with an
-`onChange` attribute containing a function that copies the attribute, above
-`value`, from the event target to the attribute object, above `settable`.
+`bind` extends the given object, above `{value: settable}`, with an `onChange`
+attribute containing a function that copies the attribute, above `value`, from
+the event target to the attribute object, above `settable`.
+
+### Classes attribute template
+
+The `classes` attribute template
+
+```jsx
+import {classes} from "bacon.react.html"
+```
+
+offers a way to specify `className` with conditional content depending on
+observables.  For example:
+
+```jsx
+...
+<B.div {...classes("unconditional",
+                   condition && "conditional",
+                   condition ? "true" : "false",
+                   observable.map(c => c && "conditional-and-observable"))}>
+    Not too classy?</B.div>
+```
+
+`classes(...)` extends to an object of the form `{className: observable}`.
 
 ### Nesting
 
