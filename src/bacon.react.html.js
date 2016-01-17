@@ -78,9 +78,7 @@ const FromClass = React.createClass({
 
     for (const key in props) {
       const val = props[key]
-      let keyOut = key
-      if ("mount" === key)
-        keyOut = "ref"
+      const keyOut = "mount" === key ? "ref" : key
       if (val instanceof Bacon.Observable) {
         obsKeys.push(keyOut)
         obsStreams.push(val)
