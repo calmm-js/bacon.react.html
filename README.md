@@ -46,10 +46,10 @@ import {bind} from "bacon.react.html"
 ```
 
 can be used to bind an attribute, e.g. `value` or `checked`, to an object with a
-`set` method such as a [Bacon.Model](https://github.com/baconjs/bacon.model):
+`set` method such as a [Bacon.Atom](https://github.com/polytypic/bacon.atom):
 
 ```jsx
-const settable = Bacon.Model("")
+const settable = Atom("")
 ...
 <B.input type="text"
          mount={c => c && c.focus()}
@@ -89,7 +89,7 @@ they are immediately contained attributes or children of the element.  So, you
 can safely nest lifted elements:
 
 ```jsx
-const checked = Bacon.Model(false)
+const checked = Atom(false)
 ...
 <B.div>
   <B.label htmlFor="likes-bacon">Bacon is tasty:</B.label>
@@ -105,7 +105,7 @@ must be lifted, because React will choke on plain Bacon.  So, the above could
 also have been written as:
 
 ```jsx
-const checked = Bacon.Model(false)
+const checked = Atom(false)
 ...
 <div>
   <label htmlFor="likes-bacon">Bacon is tasty:</label>
@@ -139,7 +139,7 @@ the class of a top-most element depends on a Bacon observable, one can use
 ```jsx
 import {fromBacon} from "bacon.react.html"
 ...
-const choice = Bacon.Model(false)
+const choice = Atom(false)
 ...
 fromBacon(choice.map(c => c ? <True/> : <False/>))
 ```
