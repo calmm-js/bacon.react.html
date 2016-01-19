@@ -80,7 +80,8 @@ observables.  For example:
     Not too classy?</B.div>
 ```
 
-`classes(...)` extends to an object of the form `{className: observable}`.
+`classes(...)` extends to an object of the form `{className: string |
+observable}`.
 
 ### Nesting
 

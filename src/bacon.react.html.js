@@ -3,7 +3,7 @@ import React from "react"
 
 // Helpers
 
-export const classes = (...cs) => ({className: Bacon.combineWith(cs, function() {
+function classesImmediate() {
   let result = ""
   for (let i=0, n=arguments.length; i<n; ++i) {
     const a = arguments[i]
@@ -14,7 +14,12 @@ export const classes = (...cs) => ({className: Bacon.combineWith(cs, function() 
     }
   }
   return result
-})})
+}
+
+export const classes = (...cs) =>
+  ({className: (cs.find(c => c instanceof Bacon.Observable)
+                ? Bacon.combineWith(cs, classesImmediate)
+                : classesImmediate(...cs))})
 
 export const bind = template => ({...template, onChange: ({target}) => {
   for (const k in template)
