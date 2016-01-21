@@ -145,6 +145,43 @@ const choice = Atom(false)
 fromBacon(choice.map(c => c ? <True/> : <False/>))
 ```
 
+### Combining properties
+
+For notational convenience, the default import
+
+```jsx
+import B from "bacon.react.html"
+```
+
+is also a generalized hybrid of
+[Bacon.combineTemplate](https://github.com/baconjs/bacon.js/#bacon-combinetemplate)
+and
+[Bacon.combineWith](https://github.com/baconjs/bacon.js/#bacon-combinewith).
+
+The meaning of `B` can be described as
+
+```jsx
+B(fn)(x1, ..., xN) === B(fn, x1, ..., xN)
+B(fn, x1, ..., xN) === Bacon.combineWith(lift(fn), lift(x1), ..., lift(xN))
+B(x1, ..., xN, fn) === Bacon.combineWith(lift(x1), ..., lift(xN), lift(fn))
+```
+
+where
+
+```jsx
+function lift(x) {
+  if (x && (x.constructor === Object || x.constructor === Array))
+    return Bacon.combineTemplate(x)
+  else
+    return x
+}
+```
+
+In other words, `B(fn)` effectively lifts the given function `fn` to operate on
+templates of observables.  `B(fn, x1, ..., xN)` and `B(x1, ..., xN, fn)`, where
+`N >= 1`, is a generalization of `Bacon.combineWith` where arguments are
+templates of observables.
+
 That's all folks!
 
 ## Longer examples

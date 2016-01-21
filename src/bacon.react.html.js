@@ -125,16 +125,34 @@ const FromClass = React.createClass({
 export const fromClass =
   Class => props => React.createElement(FromClass, {Class, props})
 
-const liftAll = cs => {
-  const lifted = {}
-  for (let i=0, n=cs.length; i<n; ++i) {
-    const c = cs[i]
+function addLiftedTo() {
+  const lifted = arguments[0]
+  for (let i=1, n=arguments.length; i<n; ++i) {
+    const c = arguments[i]
     lifted[c] = fromClass(c)
   }
-  return lifted
 }
 
-export default liftAll([
+function B() {
+  const n = arguments.length
+
+  if (1 === n) {
+    const fn = arguments[0]
+    return (...xs) => B(fn, ...xs)
+  } else {
+    for (let i=0; i<n; ++i) {
+      const x = arguments[i]
+      if (x && (x.constructor === Object ||
+                x.constructor === Array))
+        arguments[i] = Bacon.combineTemplate(x)
+    }
+
+    return Bacon.combineWith.apply(Bacon, arguments)
+  }
+}
+
+addLiftedTo(
+  B,
   "a", "abbr", "address", "area", "article", "aside", "audio",
   "b", "base", "bdi", "bdo", "big", "blockquote", "body", "br", "button",
   "canvas", "caption", "circle", "cite", "clipPath", "code", "col", "colgroup",
@@ -157,4 +175,6 @@ export default liftAll([
   "table", "tbody", "td", "text", "textarea", "tfoot", "th", "thead", "time", "title", "tr", "track", "tspan",
   "u", "ul",
   "var", "video",
-  "wbr"])
+  "wbr")
+
+export default B
