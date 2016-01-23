@@ -121,14 +121,26 @@ For best performance this latter version is preferable.
 
 ### Lifting and Patching
 
-If you need a lifted version of a class that is not already lifted, you can use
-`fromClass`:
+If you need a lifted version of a HTML class that is not already lifted, you can
+use `fromClass`:
 
 ```jsx
 import B, {fromClass} from "bacon.react.html"
 ...
 B.special = fromClass("special")
 ```
+
+There is also `fromClasses` that lifts an object of classes to an object of
+lifted classes.  For example, given
+
+```jsx
+import {fromClasses} from "bacon.react.html"
+...
+const L = fromClasses({Some, Custom, Classes})
+```
+
+then `L.Some`, `L.Custom` and `L.Classes` are lifted versions of `Some`,
+`Custom` and `Classes`.
 
 ### From Bacon
 
