@@ -1,5 +1,5 @@
+import B, * as Base from "bacon.react.base"
 import Bacon from "baconjs"
-import React from "react"
 
 // Helpers
 
@@ -26,134 +26,15 @@ export const bind = template => ({...template, onChange: ({target}) => {
     template[k].set(target[k])
 }})
 
-// Markup
+// Lifting
 
-const nullState = {dispose: null, combined: null}
+export const fromBacon = Base.fromBacon
+export const fromClass = Base.fromClass
+export const fromClasses = Base.fromClasses
 
-const common = {
-  getInitialState() {
-    return nullState
-  },
-  tryDispose() {
-    const {dispose} = this.state
-    if (dispose)
-      dispose()
-  },
-  componentWillReceiveProps(nextProps) {
-    this.trySubscribe(nextProps)
-  },
-  componentWillMount() {
-    this.trySubscribe(this.props)
-  },
-  shouldComponentUpdate(nextProps, nextState) {
-    return nextState.combined !== this.state.combined
-  },
-  componentWillUnmount() {
-    this.tryDispose()
-    this.setState(nullState)
-  }
-}
+// DOM
 
-const toProperty = obs =>
-  obs instanceof Bacon.EventStream ? obs.toProperty() : obs
-
-const FromBacon = React.createClass({
-  ...common,
-  trySubscribe({bacon}) {
-    this.tryDispose()
-
-    this.setState({dispose: toProperty(bacon).onValue(
-      combined => this.setState({combined})
-    )})
-  },
-  render() {
-    return this.state.combined
-  }
-})
-
-export const fromBacon = bacon =>
-  React.createElement(FromBacon, {bacon})
-
-const FromClass = React.createClass({
-  ...common,
-  trySubscribe({props}) {
-    this.tryDispose()
-
-    const vals = {}
-    const obsKeys = []
-    const obsStreams = []
-
-    for (const key in props) {
-      const val = props[key]
-      const keyOut = "mount" === key ? "ref" : key
-      if (val instanceof Bacon.Observable) {
-        obsKeys.push(keyOut)
-        obsStreams.push(val)
-      } else if ("children" === key &&
-                 val instanceof Array &&
-                 val.find(c => c instanceof Bacon.Observable)) {
-        obsKeys.push(keyOut)
-        obsStreams.push(Bacon.combineAsArray(val))
-      } else {
-        vals[keyOut] = val
-      }
-    }
-
-    this.setState({dispose: Bacon.combineAsArray(obsStreams).onValue(obsVals => {
-      const props = {}
-      let children = null
-      for (const key in vals) {
-        const val = vals[key]
-        if ("children" === key) {children = val} else {props[key] = val}
-      }
-      for (let i=0, n=obsKeys.length; i<n; ++i) {
-        const key = obsKeys[i]
-        const val = obsVals[i]
-        if ("children" === key) {children = val} else {props[key] = val}
-      }
-      this.setState({combined: {props, children}})
-    })})
-  },
-  render() {
-    const {combined} = this.state
-    return combined && React.createElement(this.props.Class,
-                                           combined.props,
-                                           combined.children)
-  }
-})
-
-export const fromClass =
-  Class => props => React.createElement(FromClass, {Class, props})
-
-function addLiftedTo() {
-  const lifted = arguments[0]
-  for (let i=1, n=arguments.length; i<n; ++i) {
-    const c = arguments[i]
-    lifted[c] = fromClass(c)
-  }
-}
-
-function B() {
-  const n = arguments.length
-
-  if (1 === n) {
-    const fn = arguments[0]
-    return (...xs) => B(fn, ...xs)
-  } else {
-    for (let i=0; i<n; ++i) {
-      const x = arguments[i]
-      if (x && (x.constructor === Object ||
-                x.constructor === Array))
-        arguments[i] = Bacon.combineTemplate(x)
-    }
-
-    return Bacon.combineWith.apply(Bacon, arguments)
-  }
-}
-
-addLiftedTo(
-  B,
-  "a", "abbr", "address", "area", "article", "aside", "audio",
+;["a", "abbr", "address", "area", "article", "aside", "audio",
   "b", "base", "bdi", "bdo", "big", "blockquote", "body", "br", "button",
   "canvas", "caption", "circle", "cite", "clipPath", "code", "col", "colgroup",
   "data", "datalist", "dd", "defs", "del", "details", "dfn", "dialog", "div", "dl", "dt",
@@ -175,6 +56,6 @@ addLiftedTo(
   "table", "tbody", "td", "text", "textarea", "tfoot", "th", "thead", "time", "title", "tr", "track", "tspan",
   "u", "ul",
   "var", "video",
-  "wbr")
+  "wbr"].forEach(c => B[c] = fromClass(c))
 
 export default B

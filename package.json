@@ -1,6 +1,6 @@
 {
   "name": "bacon.react.html",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "keywords": [
     "bacon",
     "dom",
@@ -25,6 +25,7 @@
   },
   "homepage": "https://github.com/polytypic/bacon.react.html#readme",
   "dependencies": {
+    "bacon.react.base": "^1.0.0",
     "baconjs": "^0.7.83",
     "react": "^0.14.3"
   },
