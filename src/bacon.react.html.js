@@ -3,10 +3,10 @@ import Bacon from "baconjs"
 
 // Helpers
 
-function classesImmediate() {
+const classesImmediate = cs => {
   let result = ""
-  for (let i=0, n=arguments.length; i<n; ++i) {
-    const a = arguments[i]
+  for (let i=0, n=cs.length; i<n; ++i) {
+    const a = cs[i]
     if (a) {
       if (result)
         result += " "
@@ -18,8 +18,8 @@ function classesImmediate() {
 
 export const classes = (...cs) =>
   ({className: (cs.find(c => c instanceof Bacon.Observable)
-                ? Bacon.combineWith(cs, classesImmediate)
-                : classesImmediate(...cs))})
+                ? B(cs, classesImmediate)
+                : classesImmediate(cs))})
 
 export const bind = template => ({...template, onChange: ({target}) => {
   for (const k in template)

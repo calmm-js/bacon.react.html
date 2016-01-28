@@ -167,32 +167,39 @@ import B from "bacon.react.html"
 
 is also a generalized hybrid of
 [Bacon.combineTemplate](https://github.com/baconjs/bacon.js/#bacon-combinetemplate)
-and
-[Bacon.combineWith](https://github.com/baconjs/bacon.js/#bacon-combinewith).
+and [Bacon.combineWith](https://github.com/baconjs/bacon.js/#bacon-combinewith)
+with
+[.skipDuplicates](https://github.com/baconjs/bacon.js/#observable-skipduplicates)([R.equals](http://ramdajs.com/0.19.0/docs/#equals)).
 
 The meaning of `B` can be described as
 
 ```jsx
 B(fn)(x1, ..., xN) === B(fn, x1, ..., xN)
-B(fn, x1, ..., xN) === Bacon.combineWith(lift(fn), lift(x1), ..., lift(xN))
-B(x1, ..., xN, fn) === Bacon.combineWith(lift(x1), ..., lift(xN), lift(fn))
+B(fn, x1, ..., xN) === combine(lift(fn), lift(x1), ..., lift(xN))
+B(x1, ..., xN, fn) === combine(lift(x1), ..., lift(xN), lift(fn))
 ```
 
 where
 
 ```jsx
-function lift(x) {
-  if (x && (x.constructor === Object || x.constructor === Array))
-    return Bacon.combineTemplate(x)
-  else
-    return x
-}
+const lift = x =>
+  x && (x.constructor === Object || x.constructor === Array)
+  ? Bacon.combineTemplate(x)
+  : x
+```
+
+and
+
+``` jsx
+const combine = (...ps) =>
+  Bacon.combineWith(...ps).skipDuplicates(R.equals)
 ```
 
 In other words, `B(fn)` effectively lifts the given function `fn` to operate on
 templates of observables.  `B(fn, x1, ..., xN)` and `B(x1, ..., xN, fn)`, where
 `N >= 1`, is a generalization of `Bacon.combineWith` where arguments are
-templates of observables.
+templates of observables.  Finally, duplicates are removed from the resulting
+property based on deep structural equality.
 
 That's all folks!
 
