@@ -26,11 +26,12 @@ export const bind = template => ({...template, onChange: ({target}) => {
     template[k].set(target[k])
 }})
 
-// Lifting
+// Export from Base
 
 export const fromBacon = Base.fromBacon
 export const fromClass = Base.fromClass
 export const fromClasses = Base.fromClasses
+export const config = Base.config
 
 // DOM
 
