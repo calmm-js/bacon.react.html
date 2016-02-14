@@ -18,13 +18,13 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/polytypic/bacon.react.html.git"
+    "url": "git+https://github.com/dirty-js/bacon.react.html.git"
   },
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/polytypic/bacon.react.html/issues"
+    "url": "https://github.com/dirty-js/bacon.react.html/issues"
   },
-  "homepage": "https://github.com/polytypic/bacon.react.html#readme",
+  "homepage": "https://github.com/dirty-js/bacon.react.html#readme",
   "dependencies": {
     "bacon.react.base": "^1.2.1",
     "baconjs": "^0.7.83",

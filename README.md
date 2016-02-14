@@ -46,7 +46,7 @@ import {bind} from "bacon.react.html"
 ```
 
 can be used to bind an attribute, e.g. `value` or `checked`, to an object with a
-`set` method such as a [Bacon.Atom](https://github.com/polytypic/bacon.atom):
+`set` method such as a [Bacon.Atom](https://github.com/dirty-js/bacon.atom):
 
 ```jsx
 const settable = Atom("")
@@ -205,4 +205,4 @@ That's all folks!
 
 ## Longer examples
 
-* [TodoMVC](https://github.com/polytypic/atomi-todomvc)
+* [TodoMVC](https://github.com/dirty-js/bacon.react.atom-todomvc)
