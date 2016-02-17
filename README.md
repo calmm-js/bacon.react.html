@@ -1,4 +1,4 @@
-[![npm version](https://badge.fury.io/js/bacon.react.html.svg)](http://badge.fury.io/js/bacon.react.html)
+[![npm version](https://badge.fury.io/js/bacon.react.html.svg)](http://badge.fury.io/js/bacon.react.html) ![](https://david-dm.org/dirty-js/bacon.react.html.svg)
 
 This library allows you to embed [Bacon](https://github.com/baconjs/bacon.js)
 observables into React Virtual DOM.
