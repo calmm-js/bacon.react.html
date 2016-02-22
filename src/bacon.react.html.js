@@ -31,6 +31,7 @@ export const bind = template => ({...template, onChange: ({target}) => {
 export const fromBacon = Base.fromBacon
 export const fromClass = Base.fromClass
 export const fromClasses = Base.fromClasses
+export const fromIds = Base.fromIds
 export const config = Base.config
 
 // DOM
