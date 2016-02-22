@@ -16,15 +16,49 @@ const classesImmediate = cs => {
   return result
 }
 
+//
+
 export const classes = (...cs) =>
   ({className: (cs.find(c => c instanceof Bacon.Observable)
                 ? B(cs, classesImmediate)
                 : classesImmediate(cs))})
 
-export const bind = template => ({...template, onChange: ({target}) => {
+//
+
+export const setProps = template => {
+  let dispose = null
+  return e => {
+    if (dispose) {
+      dispose()
+      dispose = null
+    }
+    if (e) {
+      dispose = Bacon.combineTemplate(template).subscribe(ev => {
+        if (ev.hasValue()) {
+          const template = ev.value()
+          for (const k in template)
+            e[k] = template[k]
+        } else if (ev.isError()) {
+          config.onError(ev.error)
+        } else {
+          dispose = null
+        }
+      })
+    }
+  }
+}
+
+export const getProps = template => ({target}) => {
   for (const k in template)
     template[k].set(target[k])
-}})
+}
+
+export const bindProps = ({ref, mount, ...template}) =>
+  ({[ref && "ref" || mount && "mount"]: setProps(template),
+    [ref || mount]: getProps(template)})
+
+export const bind = template =>
+  ({...template, onChange: getProps(template)})
 
 // Export from Base
 
