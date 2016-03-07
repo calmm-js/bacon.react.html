@@ -1,4 +1,4 @@
-[![npm version](https://badge.fury.io/js/bacon.react.html.svg)](http://badge.fury.io/js/bacon.react.html) [![](https://david-dm.org/dirty-js/bacon.react.html.svg)](https://david-dm.org/dirty-js/bacon.react.html)
+[![npm version](https://badge.fury.io/js/bacon.react.html.svg)](http://badge.fury.io/js/bacon.react.html) [![](https://david-dm.org/calmm-js/bacon.react.html.svg)](https://david-dm.org/calmm-js/bacon.react.html)
 
 This library allows you to embed [Bacon](https://github.com/baconjs/bacon.js)
 observables into React Virtual DOM.
@@ -46,7 +46,7 @@ import {bind} from "bacon.react.html"
 ```
 
 can be used to bind an attribute, e.g. `value` or `checked`, to an object with a
-`set` method such as a [Bacon.Atom](https://github.com/dirty-js/bacon.atom):
+`set` method such as a [Bacon.Atom](https://github.com/calmm-js/bacon.atom):
 
 ```jsx
 const settable = Atom("")
@@ -205,4 +205,4 @@ That's all folks!
 
 ## Longer examples
 
-* [TodoMVC](https://github.com/dirty-js/bacon.react.atom-todomvc)
+* [TodoMVC](https://github.com/calmm-js/bacon.react.atom-todomvc)
