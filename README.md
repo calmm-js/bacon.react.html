@@ -1,4 +1,4 @@
-[![npm version](https://badge.fury.io/js/bacon.react.html.svg)](http://badge.fury.io/js/bacon.react.html) [![](https://david-dm.org/calmm-js/bacon.react.html.svg)](https://david-dm.org/calmm-js/bacon.react.html)
+[![npm version](https://badge.fury.io/js/bacon.react.html.svg)](http://badge.fury.io/js/bacon.react.html) [![Build Status](https://travis-ci.org/calmm-js/bacon.react.html.svg?branch=master)](https://travis-ci.org/calmm-js/bacon.react.html) [![](https://david-dm.org/calmm-js/bacon.react.html.svg)](https://david-dm.org/calmm-js/bacon.react.html) [![](https://david-dm.org/calmm-js/bacon.react.html/dev-status.svg)](https://david-dm.org/calmm-js/bacon.react.html#info=devDependencies)
 
 This library allows you to embed [Bacon](https://github.com/baconjs/bacon.js)
 observables into React Virtual DOM.
